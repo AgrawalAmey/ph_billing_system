@@ -1,0 +1,20 @@
+<!-- Navigation -->
+<aside id=menu>
+    <div id=navigation>
+        <div class=profile-picture>
+            <img src= <%= "./img/avatar-0" + user.number[user.number.length - 1] + ".svg" %> class="img-circle m-b" alt=logo>
+            <div class="stats-label text-color"> <span class="font-extra-bold font-uppercase"><%= user.name %></span> </div>
+        </div>
+        <ul class=nav id=side-menu>
+            <li>
+                <a href="/receptionDesk"> <span class=nav-label>Reception Desk</span> </a>
+            </li>
+            <li>
+                <a href="/dailyTransactions"><span class=nav-label>Daily Transactions</span> </a>
+            </li>
+            <li>
+                <a href="accountSettings"> <span class=nav-label>Account Setting</span></a>
+            </li>
+        </ul>
+    </div>
+</aside>

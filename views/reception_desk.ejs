@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./partials/head.ejs %>
+    <title>Padmavati Hospital | Reception Desk</title>
+</head>
+
+<body class="fixed-navbar fixed-sidebar">
+    <% include ./partials/user_header.ejs %>
+    <% include ./partials/user_nav.ejs %>
+    <!-- Main Wrapper -->
+    <div id=wrapper>
+        <div class="small-header transition animated fadeIn">
+            <div class=hpanel>
+                <div class=panel-body>
+                    <h2 class="font-light m-b-xs">Reception Desk</h2> <small>Outdoor patient cash-counter</small> </div>
+            </div>
+        </div>
+        <div class="content animate-panel">
+            <div>
+                <div class=row>
+                    <div class="col-lg-6">
+                        <div class="hpanel">
+                            <div class="panel-heading">New patient</div>
+                            <div class="panel-body">
+                                <form role="form"  id="form_1" novalidate="novalidate" action="/addTransactionAndPatient" method="post">
+                                    <div class=form-group>
+                                        <label>First Name</label>
+                                        <input type=text class=form-control name="first_name">
+                                    </div>
+                                    <div class=form-group>
+                                        <label>Last Name</label>
+                                        <input type=text class=form-control name="last_name">
+                                    </div>
+                                    <div class=form-group>
+                                        <label>City</label>
+                                        <input type=text class=form-control name="city">
+                                    </div>                                   
+                                    <div class=form-group>
+                                        <label>Mobile Number</label>
+                                        <input type=text class=form-control name="mobile_number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date of Birth</label>
+                                        <div class="input-group date" id="datepicker">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
+                                            <input type="text" class="form-control" name="dob">
+                                        </div>
+                                    </div>
+                                    <div class=form-group>
+                                        <label>Gender</label>
+                                        <select class="form-control m-b" name=gender>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </div>
+                                    <div class=form-group>
+                                        <label>Service</label>
+                                        <select class="form-control m-b" name=service>
+                                            <% for (var  i=0; i<serviceNameList.length; i++) { %>
+                                                <option><%= serviceNameList[i] %></option>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <!-- show any errors -->
+                                    <% if (typeof addTransactionAndPatientError !== 'undefined' && addTransactionAndPatientError.length > 0) { %>
+                                        <div class="form-group">                                
+                                            <label class="error"><%= addTransactionAndPatientError %></label>
+                                        </div>
+                                    <% } %>
+                                    <!-- show any messages that come back with authentication -->
+                                    <% if (typeof addTransactionAndPatientSuccess !== 'undefined' && addTransactionAndPatientSuccess.length > 0) { %>
+                                        <div class="form-group">                                
+                                            <label class="success"><%= addTransactionAndPatientSuccess %></label>
+                                        </div>
+                                    <% } %>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary m-t-n-xs" style="float: right" type="submit"><strong>Submit</strong></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="col-lg-6">
+                        <div class="hpanel">
+                            <div class="panel-heading">Existing patient</div>
+                            <div class="panel-body" style="display: block;">
+                                <form role="form" id="form_2" novalidate="novalidate" action="/addTransaction" method="post">
+                                    <div class="form-group">
+                                        <label>Customer Number</label> 
+                                        <input type="text" class="form-control" name="customer_number">
+                                    </div>
+                                    <div class=form-group>
+                                        <label>Service</label>
+                                        <select class="form-control m-b" name=service>
+                                            <% for (var  i=0; i<serviceNameList.length; i++) { %>
+                                                <option><%= serviceNameList[i] %></option>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <!-- show any errors -->
+                                    <% if (typeof addTransactionError !== 'undefined' && addTransactionError.length > 0) { %>
+                                        <div class="form-group">                                
+                                            <label class="error"><%= addTransactionError %></label>
+                                        </div>
+                                    <% } %>
+                                    <!-- show any messages that come back with authentication -->
+                                    <% if (typeof addTransactionSuccess !== 'undefined' && addTransactionSuccess.length > 0) { %>
+                                        <div class="form-group">                                
+                                            <label class="success"><%= addTransactionSuccess %></label>
+                                        </div>
+                                    <% } %>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary m-t-n-xs" style="float: right" type="submit"><strong>Submit</strong></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer-->
+        <footer class=footer>&copy; 2016 Padmavati Hospital</footer>
+    </div>
+    
+    <% include ./partials/js_imports.ejs %>
+    
+    <script>
+        $(function(){
+            var options={
+                format: 'yyyy/mm/dd',
+                todayHighlight: true,
+                autoclose: true,
+                endDate: '0d'
+            };
+            $('#datepicker').datepicker(options);
+            $("#form_1").validate({
+                rules: {
+                    first_name: {
+                        required: true
+                    },
+                    last_name: {
+                        required: true
+                    },
+                    city: {
+                        required: true
+                    },
+                    mobile_number: {
+                        required: true,
+                        number: true,
+                        maxlength: 10,
+                        minlength: 10
+                    },
+                    dob: {
+                        required: true,
+                        date: true,
+                    }
+                },
+                messages: {
+                    mobile_number: {
+                        required: "This field is required.",
+                        number: "Please enter valid mobile number.",
+                        maxlength: "Please enter valid mobile number.",
+                        minlength: "Please enter valid mobile number."
+                    }
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+            $("#form_2").validate({
+                rules: {
+                    cnumber: {
+                        required: true
+                    }
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
